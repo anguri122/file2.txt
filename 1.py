@@ -1,10 +1,4 @@
-def time():
-     import time
-     timestamp= time.strftime('%H:%M:%S')
-     print(timestamp,sep=' ')
-     t=int(time.strftime('%H'))
-     print(t)
-#time()
+
 
 
 def calculator():
