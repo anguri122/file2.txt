@@ -1,5 +1,24 @@
-language: python
-python:
-  - "3.8"
+language: node_js
+node_js:
+  - "14"   # Use Node.js version 14 (you can specify others like "16" or "18")
+  
+# Specify branches to build
+branches:
+  only:
+    - main   # Build only on the 'main' branch
+  
+# Install dependencies
+install:
+  - npm install
+  
+# Run your test script
 script:
-  - echo "Hello, Travis!"
+  - npm test
+  
+# Optionally, deploy after successful builds
+deploy:
+  provider: script
+  script: echo "Deploying application..."
+  on:
+    branch: main
+
