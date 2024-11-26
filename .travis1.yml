@@ -1,24 +1,43 @@
-language: node_js
-node_js:
-  - "14"   # Use Node.js version 14 (you can specify others like "16" or "18")
-  
+lalanguage: python
+python:
+  - "3.8"
+  - "3.9"
+  - "3.10"
+
+# Environment setup
+env:
+  - TEST_ENV=dev
+  - TEST_ENV=prod
+
+# Install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install pytest pytest-cov  # For coverage report
+  - pip install codecov  # To upload coverage to Codecov
+
+# Run tests and generate coverage report
+script:
+  - pytest --cov=your_project_name tests/  # Replace `your_project_name` with the package to test
+
+# Upload coverage to Codecov
+after_success:
+  - codecov  # Requires Codecov integration
+
+# Cache pip packages
+cache: pip
+
 # Specify branches to build
 branches:
   only:
-    - main   # Build only on the 'main' branch
-  
-# Install dependencies
-install:
-  - npm install
-  
-# Run your test script
-script:
-  - npm test
-  
-# Optionally, deploy after successful builds
-deploy:
-  provider: script
-  script: echo "Deploying application..."
-  on:
-    branch: main
+    - main
+    - develop  # Add other branches as needed
+
+# Email notifications
+notifications:
+  email:
+    recipients:
+      anguri2264@gmail.com
+    on_success: never
+    on_failure: always
+
 
