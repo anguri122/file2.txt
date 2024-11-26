@@ -1,6 +1,18 @@
 language: python
-python:
-  - '3.9'
 
+python:
+  - "3.9"  # Specify the Python version (you can add more versions for testing)
+
+# Install dependencies
+install:
+  - pip install pytest  # Install pytest for testing (if needed)
+  
+# Script to run tests
 script:
-  - echo 'Hello, Travis CI!'
+  - python calculator.py  # Ensure the calculator script runs without errors
+
+# Optionally, you can add a test script if you have one
+# Uncomment the following if you have a test file like `test_calculator.py`
+# script:
+#   - pytest test_calculator.py
+
