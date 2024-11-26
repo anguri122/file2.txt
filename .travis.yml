@@ -1,18 +1,24 @@
-language: python
 
-python:
-  - "3.9"  # Specify the Python version (you can add more versions for testing)
+arch:
+  - arm64
 
-# Install dependencies
-install:
-  - pip install pytest  # Install pytest for testing (if needed)
-  
-# Script to run tests
+env:
+  - IMGNAME=bradmorg/ubuntu:dbot
+
+services:
+  - docker
+
+before_install:
+- docker image build -t ${IMGNAME} .
+
 script:
-  - python calculator.py  # Ensure the calculator script runs without errors
+#TravisCI seems to be coming in on undocumented IP addresses.
+ - dig +short myip.opendns.com @resolver1.opendns.com
 
-# Optionally, you can add a test script if you have one
-# Uncomment the following if you have a test file like `test_calculator.py`
-# script:
-#   - pytest test_calculator.py
 
+after_success:
+- docker login -u ${DHUB_USERNAME} -p ${DHUB_PASS}
+- echo "${SSH_KEY}" |  base64 --decode > /tmp/ssh_rsa
+- chmod 600 /tmp/ssh_rsa
+- ssh -o "StrictHostKeyChecking no" pi@${IPADDR} -i /tmp/ssh_rsa "echo test > test.log"
+- ssh -o "StrictHostKeyChecking no" pi@${IPADDR} -i /tmp/ssh_rsa "cd ${INSTALL_LOCATION} && git pull ${TRAVIS_BUILD_WEB_URL} && docker image build -t ${IMGNAME} ${INSTALL_LOCATION}/. && docker push ${IMGNAME} && docker stop discordbot; docker rm discordbot; docker run --name discordbot --restart always -d -e TOKEN=${TOKEN} ${IMGNAME}"
