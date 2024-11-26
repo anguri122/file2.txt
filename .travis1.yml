@@ -4,35 +4,35 @@ python:
   - "3.9"
   - "3.10"
 
-# Environment setup
+
 env:
   - TEST_ENV=dev
   - TEST_ENV=prod
 
-# Install dependencies
+
 install:
   - pip install -r requirements.txt
-  - pip install pytest pytest-cov  # For coverage report
-  - pip install codecov  # To upload coverage to Codecov
+  - pip install pytest pytest-cov 
+  - pip install codecov  
 
-# Run tests and generate coverage report
+
 script:
-  - pytest --cov=your_project_name tests/  # Replace `your_project_name` with the package to test
+  - pytest --cov=your_project_name tests/  
 
-# Upload coverage to Codecov
+
 after_success:
-  - codecov  # Requires Codecov integration
+  - codecov  
 
-# Cache pip packages
+
 cache: pip
 
-# Specify branches to build
+
 branches:
   only:
     - main
-    - develop  # Add other branches as needed
+    - develop  
 
-# Email notifications
+
 notifications:
   email:
     recipients:
